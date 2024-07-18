@@ -14,7 +14,7 @@ export const defaultPizzaImage =
 
 const ProductListItem: React.FC<ProductListItemProps> = ({ product }) => {
   return (
-    <Link href={`/${product.id}`} asChild>
+    <Link href={`/menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
         <Image
           source={{ uri: product.image || defaultPizzaImage }}
