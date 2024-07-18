@@ -4,6 +4,7 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
 import { useState } from "react";
 import Button from "@/components/Button";
+import { ScrollView } from "react-native";
 
 const ProductDetailScreen = () => {
 const addToCart = ()=>{
@@ -23,6 +24,10 @@ const addToCart = ()=>{
   const sizes = ["S", "M", "L", "XL"];
 
   return (
+    <ScrollView>
+
+
+
     <View style={styles.container}>
       <Stack.Screen options={{ title: product?.name }} />
       <Image
@@ -75,6 +80,7 @@ const addToCart = ()=>{
         </View>
       </View>
     </View>
+</ScrollView>
   );
 };
 
