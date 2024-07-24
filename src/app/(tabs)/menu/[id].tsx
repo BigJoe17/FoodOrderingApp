@@ -1,86 +1,92 @@
 import { defaultPizzaImage } from "@/components/ProductListItem";
 import products from "@assets/data/products";
+import { CartItem, PizzaSize } from "@/types";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { StyleSheet, Text, View, Image, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { useState } from "react";
 import Button from "@/components/Button";
 import { ScrollView } from "react-native";
+import { useCart } from "@/providers/CartProvider";
+import { useRouter } from "expo-router";
 
+const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
 const ProductDetailScreen = () => {
-const addToCart = ()=>{
-  console.warn("Add to cart:", selectedSize);
-}
+const {addItem} = useCart();
+const router = useRouter();
 
-  const [selectedSize, setSelectedSize] = useState("L");
+  const [selectedSize, setSelectedSize] = useState<PizzaSize>("L");
 
   const { id } = useLocalSearchParams();
 
   const product = products.find((p) => p.id.toString() == id);
 
+  const addToCart = () => {
+    if (!product) return;
+    addItem(product, selectedSize);
+
+    router.push("/cart");
+ 
+  };
   if (!product) {
     return <Text style={styles.notFound}>Product not found</Text>;
   }
 
-  const sizes = ["S", "M", "L", "XL"];
-
   return (
     <ScrollView>
+      <View style={styles.container}>
+        <Stack.Screen options={{ title: product?.name }} />
+        <Image
+          source={{ uri: product.image || defaultPizzaImage }}
+          style={styles.image}
+          resizeMode="contain"
+        />
 
-
-
-    <View style={styles.container}>
-      <Stack.Screen options={{ title: product?.name }} />
-      <Image
-        source={{ uri: product.image || defaultPizzaImage }}
-        style={styles.image}
-        resizeMode="contain"
-      />
-
-      <View style={styles.details}>
-        <Text style={styles.name}>{product?.name}</Text>
-        <Text style={styles.price}>Price: {product?.price}</Text>
-        <View style={styles.sizeSelection}>
-          <Text style={styles.sizeLabel}>Select Size</Text>
-          <View style={styles.sizes}>
-            {sizes.map((size) => (
-              <Pressable
-                key={size}
-                onPress={() => setSelectedSize(size)}
-                style={[
-                  styles.size,
-                  {
-                    backgroundColor:
-                      selectedSize == size ? "lightgray" : "white",
-                  },
-                ]}
-                accessibilityLabel={`Select ${size} size`}
-                accessibilityState={{ selected: selectedSize === size }}
-              >
-                <Text
-                  style={{
-                    color: selectedSize == size ? "black" : "gray",
-                  }}
+        <View style={styles.details}>
+          <Text style={styles.name}>{product?.name}</Text>
+          <Text style={styles.price}>Price: {product?.price}</Text>
+          <View style={styles.sizeSelection}>
+            <Text style={styles.sizeLabel}>Select Size</Text>
+            <View style={styles.sizes}>
+              {sizes.map((size) => (
+                <Pressable
+                  key={size}
+                  onPress={() => setSelectedSize(size)}
+                  style={[
+                    styles.size,
+                    {
+                      backgroundColor:
+                        selectedSize == size ? "lightgray" : "white",
+                    },
+                  ]}
+                  accessibilityLabel={`Select ${size} size`}
+                  accessibilityState={{ selected: selectedSize === size }}
                 >
-                  {size}
-                </Text>
-              </Pressable>
-            ))}
+                  <Text
+                    style={{
+                      color: selectedSize == size ? "black" : "gray",
+                    }}
+                  >
+                    {size}
+                  </Text>
+                </Pressable>
+              ))}
+            </View>
+          </View>
+
+          <Button onPress={addToCart} text="add to cart" />
+
+          <View>
+            <Text style={styles.name}>Description</Text>
+            <Text style={{ fontSize: 16 }}>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
+              debitis quasi quas at error aperiam iste mollitia quos corporis
+              reprehenderit quo itaque voluptatibus ab saepe quibusdam,
+              obcaecati ratione deleniti esse?
+            </Text>
           </View>
         </View>
-
-        <Button onPress ={addToCart} text="add to cart"/>
-        <View>
-          <Text style={styles.name}>Description</Text>
-          <Text style={{ fontSize: 16 }}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Enim
-            debitis quasi quas at error aperiam iste mollitia quos corporis
-            reprehenderit quo itaque voluptatibus ab saepe quibusdam, obcaecati
-            ratione deleniti esse?
-          </Text>
-        </View>
       </View>
-    </View>
-</ScrollView>
+    </ScrollView>
   );
 };
 

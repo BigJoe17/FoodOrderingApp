@@ -1,4 +1,4 @@
-import { BackHandler, Pressable, Text, View, StyleSheet, text } from 'react-native';
+import { BackHandler, Pressable, Text, View, StyleSheet } from 'react-native';
 import Colors from "@/constants/Colors";
 import { forwardRef } from "react";
 
@@ -22,13 +22,13 @@ const Styles = StyleSheet.create({
   container: {
     backgroundColor: Colors.light.tint,
     padding: 10,
-    margin:20,
+    marginTop:20,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 10,
     width: "100%",
     height: 50,
-  },
+    },
 
   text: {
     color: "white",
