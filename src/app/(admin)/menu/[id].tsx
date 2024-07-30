@@ -22,16 +22,17 @@ const router = useRouter();
 
   const product = products.find((p) => p.id.toString() == id);
 
- 
+ if(!product){
+    return <Text style={styles.notFound}>Product not found</Text>
+ }
   
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <Stack>
+      
 
       <Stack.Screen
-        name="index"
         options={{
           title: "Menu",
           headerRight: () => (
@@ -39,7 +40,7 @@ const router = useRouter();
             <Pressable>
                 {({ pressed }) => (
                   <FontAwesome
-                    name="plus-square-o"
+                    name="pencil"
                     size={25}
                     color={Colors.light.tint}
                     style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
@@ -50,7 +51,7 @@ const router = useRouter();
           ),
         }}
         />
-        </Stack>
+        
         <Image
           source={{ uri: product?.image ?? defaultPizzaImage }}
           style={styles.image}
