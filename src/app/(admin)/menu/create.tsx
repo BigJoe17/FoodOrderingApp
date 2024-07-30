@@ -45,12 +45,13 @@ const CreateProductScreen = () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
+      allowsEditing: false,
+
       aspect: [4, 3],
       quality: 1,
     });
 
-    console.log(result);
+    // console.log(result);
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
@@ -60,7 +61,6 @@ const CreateProductScreen = () => {
   const onCreate = () => {
     if (validateInput()) {
       console.warn("Creating Product with", { name, price });
-      setImage(image);
       resetFields();
     }
   };
@@ -107,16 +107,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     padding: 10,
-  },
+    backgroundColor: "#fff",
+  }, 
   label: {
     fontSize: 20,
     marginBottom: 5,
   },
   image: {
-    width: "70%",
+    width: "50%",
     borderRadius: 10,
     alignSelf: "center",
-    aspectRatio: 1.5,
+    aspectRatio: 1,
   },
   imageButton: {
     fontSize: 20,
