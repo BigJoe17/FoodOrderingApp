@@ -91,6 +91,7 @@ const onDelete = ()=>{
   const confirmDelete =()=>{
     Alert.alert("confirm", "Are you sure you want to delete this product?", [{
       text: "Cancel",
+      style: "cancel"
 
     },
     {
